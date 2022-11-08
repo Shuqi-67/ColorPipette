@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Quasar App (colorchart2)
 
 A Quasar Framework app
@@ -24,3 +25,6 @@ quasar build
 
 ### Customize the configuration
 See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
+=======
+# color_chart
+>>>>>>> 1844589ec10be6cd2cec3c34d21b7c0f36848427

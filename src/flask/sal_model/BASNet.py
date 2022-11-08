@@ -2,9 +2,7 @@ import torch
 import torch.nn as nn
 from torchvision import models
 import torch.nn.functional as F
-
 from .resnet_model import *
-
 
 class RefUnet(nn.Module):
     def __init__(self,in_ch,inc_ch):

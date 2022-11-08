@@ -2,7 +2,7 @@
   <q-layout id="background">
     <div style="float: left; margin-top: 0.2%; margin-left: 1%; width: 23%">
       <div class="column">
-        <q-file v-model="file" label="Select" accept="image/png,image/gif,image/jpeg" style="width: 100%; margin-left: 1%"/>
+        <q-file v-model="file" label="Select an image (<=500KB)" accept="image/png,image/gif,image/jpeg" style="width: 100%; margin-left: 1%"/>
         <q-img
           :src="picUrl"
           style="max-height: 350px; margin-top: 1%"
@@ -64,13 +64,13 @@
       <div style="font-size: medium; float: left; font-weight: bold"> Color </div>
       <div style="margin-top: 12%;" class="row">
         <div v-for="btn_id1 in btn_ids1" :key="btn_id1.id">
-          <q-btn push :id="btn_id1.id" @click="copy(btn_id1.id)" label="#C0C0C0" style="background-color: #c0c0c0; width: 74px; margin-left: 10px;
+          <q-btn push :id="btn_id1.id" @click="copy(btn_id1.id)" label="#C0C0C0" style="background-color: #c0c0c0; width: 60px; margin-left: 10px;
         color: #ffffff; font-size: 15px; font-family: 'Adobe Garamond Pro'; margin-bottom: 5px; height: 25px;"/>
         </div>
       </div>
       <div style="margin-top: 2px" class="row">
         <div v-for="btn_id2 in btn_ids2" :key="btn_id2.id">
-          <q-btn push :id="btn_id2.id" @click="copy(btn_id2.id)" label="#C0C0C0" style="background-color: #c0c0c0; width: 74px; margin-left: 10px;
+          <q-btn push :id="btn_id2.id" @click="copy(btn_id2.id)" label="#C0C0C0" style="background-color: #c0c0c0; width: 60px; margin-left: 10px;
         color: #ffffff; font-size: 15px; font-family: 'Adobe Garamond Pro'; margin-bottom: 5px; height: 25px;"/>
         </div>
       </div>
@@ -84,7 +84,7 @@
       <div style="font-size: medium; float: left; font-weight: bold"> Background </div>
       <div style="margin-top: 12%;" class="row">
         <div v-for="btn_id4 in btn_ids4" :key="btn_id4.id">
-          <q-btn push :id="btn_id4.id" @click="change_background_color(btn_id4.id)" label="#C0C0C0" style="background-color: #c0c0c0; width: 74px; margin-left: 10px;
+          <q-btn push :id="btn_id4.id" @click="change_background_color(btn_id4.id)" label="#C0C0C0" style="background-color: #c0c0c0; width: 60px; margin-left: 10px;
         color: #ffffff; font-size: 15px; font-family: 'Adobe Garamond Pro'; margin-bottom: 5px; height: 25px;"/>
         </div>
       </div>
@@ -155,7 +155,7 @@ var option_line_2 = {
     {
       type: 'category',
       boundaryGap: false,
-      data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+      data: ['0', '1', '2', '3', '4', '5', '6'],
       show: false
     }
   ],
@@ -240,7 +240,7 @@ var option_line_1 = {
     trigger: 'axis'
   },
   legend: {
-    data: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'], // 这里对应颜色数 item?
+    data: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
     show: true
   },
   grid: {
@@ -367,7 +367,11 @@ export default {
     },
     file (val, oldVal) {
       var that = this
-      that.change_pic(val, true)
+      if (val.size / 1024 <= 500) {
+        that.change_pic(val, true)
+      } else {
+        alert('The image is more than 500KB!')
+      }
     },
     shape (val, oldVal) {
       var that = this
@@ -497,7 +501,7 @@ export default {
       var index = parseInt(button_id[3] - 1)
       const copytext = colors[index]
       this.$copyText(copytext).then(res => {
-        this.$message.success({ message: '已成功复制到剪切板' })
+        this.$message.success({ message: 'copy successed' })
       }).catch(err => {
         this.$messag1e.error({ message: err })
       })
@@ -512,7 +516,6 @@ export default {
     },
     // eslint-disable-next-line camelcase
     change_background_color (button_id) {
-      // var index = 0
       var that = this
       that.background_color = background_colors[0]
     },
@@ -529,7 +532,6 @@ export default {
     },
 
     change_graph_color_data (option, callback) {
-      // 清除上个图表残留
       var legends = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
       var that = this
       myChart.clear()
@@ -538,7 +540,6 @@ export default {
         option.legend.data = []
         option.series = []
         // eslint-disable-next-line camelcase
-        // var geoData_line = require('../../static/line_' + (that.colors_num).toString() + 'items_4.json')
         for (var ij = 0; ij < that.colors_num; ij++) {
           option.legend.data.push('item' + ij.toString())
           // eslint-disable-next-line camelcase
@@ -565,7 +566,7 @@ export default {
           option.series.push({
             name: 'item' + ij.toString(),
             type: 'line',
-            stack: '总量',
+            stack: 'all',
             data: Data_line[ij],
             color: colors[ij]
           })
@@ -577,7 +578,7 @@ export default {
           // eslint-disable-next-line camelcase
           option.series.push({
             type: 'line',
-            stack: '总量',
+            stack: 'all',
             areaStyle: {},
             emphasis: {
               focus: 'series'
@@ -687,15 +688,6 @@ export default {
             }
           }
         }
-        /* for (var ik = 0; ik < that.colors_num; ik++) {
-          option_bar_1.xAxis.data.push('item' + ik.toString())
-          option.series[0].data.push({
-            value: Math.floor(Math.random() * 80 + 20),
-            itemStyle: {
-              color: colors[ik]
-            }
-          })
-        } */
         // eslint-disable-next-line camelcase
       } else if (option === option_pie_1) {
         option.series[0].data = []
@@ -734,7 +726,6 @@ export default {
     // eslint-disable-next-line camelcase
     change_pic (file, file_flag) {
       var that = this
-      // var file = e.target.files[0]
       // eslint-disable-next-line camelcase
       if (file_flag) {
         var param = new FormData()
@@ -746,7 +737,6 @@ export default {
           alert('Error ' + error)
         })
       } else {
-        // console.log(that.$refs.carousel.$children[0].$options.propsData.imgSrc)
         var index = 0
         if (that.$refs.carousel.$children[0].$options.propsData.imgSrc === undefined) {
           index = 1
@@ -764,47 +754,48 @@ export default {
       }
     },
     arrayBufferToBase64 (buffer) {
-      // 第一步，将ArrayBuffer转为二进制字符串
       var binary = ''
       var bytes = new Uint8Array(buffer)
       var len = bytes.byteLength
       for (var i = 0; i < len; i++) {
         binary += String.fromCharCode(bytes[i])
       }
-      // 将二进制字符串转为base64字符串
       return window.btoa(binary)
     },
     get_color_open () {
       var that = this
-      this.$q.loading.show({
-        message: 'Generating……'
-      })
-      axios.get('http://127.0.0.1:5000/get/color_open', {
-        params: {
-          image: that.picUrl,
-          number: that.colors_num,
-          bcg_flag: that.background_exist
-        }
-      }, { responseType: 'json' }).then(function (response) {
-        colors = response.data.data.color_list
-
-        // eslint-disable-next-line camelcase
-        background_colors = [response.data.data.bcg]
-        if (that.picUrl === '') {
-          colors = []
-          for (var k = 0; k < that.colors_num; k++) {
-            colors.push('#C0C0C0')
+      if (that.file.length === 0) {
+        alert('Please upload an image or select one from the samples.')
+      } else {
+        this.$q.loading.show({
+          message: 'Generating……'
+        })
+        axios.get('http://127.0.0.1:5000/get/color_open', {
+          params: {
+            number: that.colors_num,
+            bcg_flag: that.background_exist
           }
-        }
-        that.change_btn_color(function () {
+        }, { responseType: 'json' }).then(function (response) {
+          colors = response.data.data.color_list
+
+          // eslint-disable-next-line camelcase
+          background_colors = [response.data.data.bcg]
+          if (that.picUrl === '') {
+            colors = []
+            for (var k = 0; k < that.colors_num; k++) {
+              colors.push('#C0C0C0')
+            }
+          }
+          that.change_btn_color(function () {
+          })
+          that.change_background_btn_color(function () {
+          })
+          that.change_graph_color_data(option_now, function () {
+          })
+        }).catch(function (error) {
+          alert('Error ' + error)
         })
-        that.change_background_btn_color(function () {
-        })
-        that.change_graph_color_data(option_now, function () {
-        })
-      }).catch(function (error) {
-        alert('Error ' + error)
-      })
+      }
     },
     change_graph_bar1 () {
       var that = this
@@ -814,10 +805,6 @@ export default {
       var that = this
       that.change_graph_color_data(option_line_1)
     },
-    /* change_graph_scat1 () {
-      var that = this
-      that.change_graph_color_data(option_scat_1)
-    }, */
     change_graph_pie1 () {
       var that = this
       that.change_graph_color_data(option_pie_1)

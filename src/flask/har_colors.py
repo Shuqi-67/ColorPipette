@@ -192,7 +192,6 @@ def select_from_candidates_not_ambiguous(candidates, ave_sal, num, max_sal_idx):
             palette_lch_sal.append([alternate[0], alternate[2]])
 
     palette_lch_sal = sorted(palette_lch_sal, key = lambda x : -1 * x[1])
-    print(palette_lch_sal)
     palette_lch = []
     palette_sal = []
     for p in palette_lch_sal:

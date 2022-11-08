@@ -33,6 +33,7 @@ def gather():
         a = f.read()
     img_stream = io.BytesIO(a)
     img = Image.open(img_stream)
+
     imgByteArr = io.BytesIO()
     img.save(imgByteArr, format='PNG')
     imgByteArr = imgByteArr.getvalue()
@@ -173,7 +174,6 @@ def lab_dis(c1, c2):
 
 @app.route('/get/color_open', methods=['GET', 'POST'], endpoint='color_open')
 def generate_color_open():
-  img_file = request.args.get("image")
   number = request.args.get('number')
   number = int(number)
   bcg_flag = request.args.get("bcg_flag")

@@ -64,13 +64,13 @@
       <div style="font-size: medium; float: left; font-weight: bold"> Color </div>
       <div style="margin-top: 12%;" class="row">
         <div v-for="btn_id1 in btn_ids1" :key="btn_id1.id">
-          <q-btn push :id="btn_id1.id" @click="copy(btn_id1.id)" label="#C0C0C0" style="background-color: #c0c0c0; width: 60px; margin-left: 10px;
+          <q-btn push :id="btn_id1.id" @click="copy(btn_id1.id)" label="#C0C0C0" style="background-color: #c0c0c0; width: 64px; margin-left: 10px;
         color: #ffffff; font-size: 15px; font-family: 'Adobe Garamond Pro'; margin-bottom: 5px; height: 25px;"/>
         </div>
       </div>
       <div style="margin-top: 2px" class="row">
         <div v-for="btn_id2 in btn_ids2" :key="btn_id2.id">
-          <q-btn push :id="btn_id2.id" @click="copy(btn_id2.id)" label="#C0C0C0" style="background-color: #c0c0c0; width: 60px; margin-left: 10px;
+          <q-btn push :id="btn_id2.id" @click="copy(btn_id2.id)" label="#C0C0C0" style="background-color: #c0c0c0; width: 64px; margin-left: 10px;
         color: #ffffff; font-size: 15px; font-family: 'Adobe Garamond Pro'; margin-bottom: 5px; height: 25px;"/>
         </div>
       </div>
@@ -84,7 +84,7 @@
       <div style="font-size: medium; float: left; font-weight: bold"> Background </div>
       <div style="margin-top: 12%;" class="row">
         <div v-for="btn_id4 in btn_ids4" :key="btn_id4.id">
-          <q-btn push :id="btn_id4.id" @click="change_background_color(btn_id4.id)" label="#C0C0C0" style="background-color: #c0c0c0; width: 60px; margin-left: 10px;
+          <q-btn push :id="btn_id4.id" @click="change_background_color(btn_id4.id)" label="#C0C0C0" style="background-color: #c0c0c0; width: 64px; margin-left: 10px;
         color: #ffffff; font-size: 15px; font-family: 'Adobe Garamond Pro'; margin-bottom: 5px; height: 25px;"/>
         </div>
       </div>
@@ -97,7 +97,7 @@
     <div style="float: right; margin-right: 4%; width: 70%">
       <q-toolbar class="bg-grey-3 text-grey-9 q-my-md shadow-2">
         <div style="font-family: 'Adobe Garamond Pro'; font-size: xx-large">
-          ColorChart
+          ColorPipette
         </div>
 
         <q-space />

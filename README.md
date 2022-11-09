@@ -26,12 +26,6 @@ cd ../..
 4. Start ColorPipette!
 ```
 yarn
-```
-or
-```
-npm install
-```
-```
 quasar dev
 ```
 

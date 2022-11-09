@@ -16,28 +16,26 @@ import numpy as np
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
-@app.route('/get_pic', methods=['GET', 'POST'], endpoint='get_pic')
-def gather():
+@app.route('/save_pic', methods=['GET', 'POST'], endpoint='save_pic')
+def save_pic():
     root = os.getcwd()
     src_img_root = os.path.join(root, "src_img")
     img_name = time.strftime("%Y%m%d%H%M%S", time.localtime())+'.png'
     src_img_path = os.path.join(src_img_root,img_name)
     file_obj = request.files['file']
     file_obj.save(src_img_path)
-    print(src_img_path)
+    return img_name
 
-    global latest_img
-    latest_img = src_img_path
-
+@app.route('/get_pic', methods=['GET', 'POST'], endpoint='get_pic')
+def gather():
+    img_name = request.args.get("img_name")
+    root = os.getcwd()
+    src_img_root = os.path.join(root, "src_img")
+    src_img_path = os.path.join(src_img_root, img_name)
     with open(src_img_path, 'rb') as f:
-        a = f.read()
-    img_stream = io.BytesIO(a)
-    img = Image.open(img_stream)
-
-    imgByteArr = io.BytesIO()
-    img.save(imgByteArr, format='PNG')
-    imgByteArr = imgByteArr.getvalue()
-    return imgByteArr
+      image = f.read()
+    image_base64 = str(base64.b64encode(image), encoding='utf-8')
+    return image_base64
 
 @app.route('/get/get_sample', methods=['GET', 'POST'], endpoint='get_sample')
 def gather_sample():
@@ -45,9 +43,6 @@ def gather_sample():
     root = os.path.abspath('../..')
     src_img_root = os.path.join(root, "public", "samples")
     src_img_path = os.path.join(src_img_root, img_name)
-
-    global latest_img
-    latest_img = src_img_path
 
     with open(src_img_path, 'rb') as f:
       image = f.read()
@@ -177,6 +172,16 @@ def generate_color_open():
   number = request.args.get('number')
   number = int(number)
   bcg_flag = request.args.get("bcg_flag")
+  img_name = request.args.get("img_name")
+
+  if img_name[-3:] == "png":
+    root = os.getcwd()
+    src_img_root = os.path.join(root, "src_img")
+    src_img_path = os.path.join(src_img_root, img_name)
+  else:
+    root = os.path.abspath(os.path.join(os.getcwd(), "../.."))
+    src_img_root = os.path.join(root, "public", "samples")
+    src_img_path = os.path.join(src_img_root, img_name)
 
   bcg = ""
   if bcg_flag == 'true':
@@ -186,16 +191,16 @@ def generate_color_open():
 
   color_list = []
 
-  global latest_img, Sal, Sp, Enc
+  global Sal, Sp, Enc
   # 1. saliency detection & pixel segmentation
-  sal_imo_pil = Sal.saliency_detect(latest_img)
+  sal_imo_pil = Sal.saliency_detect(src_img_path)
   sal_imo_cv2 = cv2.cvtColor(np.asarray(sal_imo_pil), cv2.COLOR_RGB2BGR)
 
-  label, sp_img_cv2 = Sp.do_spixel(latest_img)
+  label, sp_img_cv2 = Sp.do_spixel(src_img_path)
   sp_img_cv2_lab = cv2.cvtColor(sp_img_cv2, cv2.COLOR_RGB2LAB)
   sal_imo_cv2 = cv2.resize(sal_imo_cv2, (sp_img_cv2.shape[1], sp_img_cv2.shape[0]))
 
-  img_cv2_bgr = cv2.imread(latest_img)
+  img_cv2_bgr = cv2.imread(src_img_path)
   img_cv2_lab = cv2.cvtColor(img_cv2_bgr, cv2.COLOR_BGR2LAB)
 
   # 2. background color detection
@@ -269,9 +274,6 @@ def nets_init():
     global root_dir, src_img_root
     root_dir = os.path.dirname(os.path.abspath(__file__))  #./flask
     src_img_root = os.path.join(root_dir, 'src_img')
-
-    global latest_img
-    latest_img = ''
 
     sal_model_dir = os.path.join(root_dir, 'saliency', 'saved_models', 'basnet_best_train_gdi.pth')
     sal_save_dir = os.path.join(root_dir, 'res', 'sal')

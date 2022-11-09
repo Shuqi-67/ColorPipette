@@ -355,9 +355,8 @@ var option_bar_1 = {
 export default {
   watch: {
     background_exist (val, oldVal) {
-      var that = this
       if (val === 'true') {
-        option_now.backgroundColor = that.background_color
+        option_now.backgroundColor = background_colors[0]
       } else {
         option_now.backgroundColor = 'rgba(128, 128, 128, 0)'
       }
@@ -367,10 +366,12 @@ export default {
     },
     file (val, oldVal) {
       var that = this
-      if (val.size / 1024 <= 500) {
-        that.change_pic(val, true)
-      } else {
-        alert('The image is more than 500KB!')
+      if (val[0] !== 'sample') {
+        if (val.size / 1024 <= 500) {
+          that.save_pic(val)
+        } else {
+          alert('The image is more than 500KB!')
+        }
       }
     },
     shape (val, oldVal) {
@@ -432,9 +433,6 @@ export default {
       var that = this
       option_now.backgroundColor = val
       that.background_color = val
-      // if (val[0] === '#') {
-      //   that.background_exist = 'true'
-      // }
       chartdom = document.getElementById('chart')
       myChart = echarts.init(chartdom)
       myChart.setOption(option_now)
@@ -460,7 +458,8 @@ export default {
       background_color: '#ffffff',
       color_picker: false,
       show_samples: false,
-      slide: 1
+      slide: 1,
+      flask_img_name: ''
     }
   },
   mounted () {
@@ -522,7 +521,8 @@ export default {
     choose_sample () {
       var that = this
       that.show_samples = false
-      this.change_pic(null, false)
+      that.file = ['sample']
+      this.change_pic(false)
     },
     change_background_btn_color (callback) {
       var that = this
@@ -718,21 +718,37 @@ export default {
           option.series[0].data[j].itemStyle.color = colors[j]
         }
       }
+      if (that.background_exist === 'true') {
+        option.backgroundColor = background_colors[0]
+        console.log(option)
+      }
       myChart.setOption(option)
       // eslint-disable-next-line camelcase
       option_now = option
       that.$q.loading.hide()
     },
+    save_pic (file) {
+      var that = this
+      var param = new FormData()
+      param.append('file', file)
+      axios.post('http://127.0.0.1:5000/save_pic', param, { responseType: 'str' }).then(function (response) {
+        that.flask_img_name = response.data
+        that.change_pic(true)
+      }).catch(function (error) {
+        alert('Error ' + error)
+      })
+    },
     // eslint-disable-next-line camelcase
-    change_pic (file, file_flag) {
+    change_pic (file_flag) {
       var that = this
       // eslint-disable-next-line camelcase
       if (file_flag) {
-        var param = new FormData()
-        param.append('file', file)
-        axios.post('http://127.0.0.1:5000/get_pic', param, { responseType: 'arraybuffer' }).then(function (response) {
-          that.picUrl = 'data:image/png;base64,' + that.arrayBufferToBase64(response.data)
-          console.log(response.data)
+        axios.get('http://127.0.0.1:5000/get_pic', {
+          params: {
+            img_name: that.flask_img_name
+          }
+        }, { responseType: 'arraybuffer' }).then(function (response) {
+          that.picUrl = 'data:image/png;base64,' + response.data
         }).catch(function (error) {
           alert('Error ' + error)
         })
@@ -741,7 +757,7 @@ export default {
         if (that.$refs.carousel.$children[0].$options.propsData.imgSrc === undefined) {
           index = 1
         }
-        console.log(that.$refs.carousel)
+        that.flask_img_name = that.$refs.carousel.$children[index].$options.propsData.imgSrc.slice(4)
         axios.get('http://127.0.0.1:5000/get/get_sample', {
           params: {
             sample_index: that.$refs.carousel.$children[index].$options.propsData.imgSrc.slice(4)
@@ -773,7 +789,8 @@ export default {
         axios.get('http://127.0.0.1:5000/get/color_open', {
           params: {
             number: that.colors_num,
-            bcg_flag: that.background_exist
+            bcg_flag: that.background_exist,
+            img_name: that.flask_img_name
           }
         }, { responseType: 'json' }).then(function (response) {
           colors = response.data.data.color_list

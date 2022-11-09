@@ -257,7 +257,6 @@ dist
 .pnp.*
 src/flask/__pycache__/
 src/flask/res/
-src/flask/src_img/
 src/flask/spixel/models/__pycache__/
 src/flask/encoder/__pycache__/
 

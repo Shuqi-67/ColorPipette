@@ -17,9 +17,11 @@ def normPRED(d):
 
 def load_model(model_dir):
   net = BASNet(3, 1)
-  net.load_state_dict(torch.load(model_dir))
   if torch.cuda.is_available():
+    net.load_state_dict(torch.load(model_dir))
     net.cuda()
+  else:
+    net.load_state_dict(torch.load(model_dir, map_location='cpu'))
   net.eval()
   return net
 

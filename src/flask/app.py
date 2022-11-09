@@ -19,7 +19,7 @@ CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 @app.route('/get_pic', methods=['GET', 'POST'], endpoint='get_pic')
 def gather():
     root = os.getcwd()
-    src_img_root = root + '/src_img/'
+    src_img_root = os.path.join(root, "src_img")
     img_name = time.strftime("%Y%m%d%H%M%S", time.localtime())+'.png'
     src_img_path = os.path.join(src_img_root,img_name)
     file_obj = request.files['file']
@@ -43,7 +43,7 @@ def gather():
 def gather_sample():
     img_name = request.args.get("sample_index")
     root = os.path.abspath('../..')
-    src_img_root = root + '/public/samples/'
+    src_img_root = os.path.join(root, "public", "samples")
     src_img_path = os.path.join(src_img_root, img_name)
 
     global latest_img

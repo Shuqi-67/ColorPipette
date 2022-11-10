@@ -1,9 +1,9 @@
 # ColorPipette
 
 An interactive tool for paper *Image-Driven Harmonious Color Palette Generation for Diverse Information Visualization*.
-Generate harmonious color palette for visualization from the input image.
 
 Generate color palette from vivid images for your visualization!
+
 <img src="https://i.postimg.cc/X71zZt1S/image.png" width=550 height=245>
 
 ## Prerequisites
@@ -24,7 +24,7 @@ python app.py
 cd ../..
 ```
 
-3. We use [qarsar framework](https://quasar.dev/) to design the web application. Please follow [quasar-cli](https://quasar.dev/start/quasar-cli) to install it.
+3. We use [qarsar framework](https://quasar.dev/) to design the web application. Please follow [quasar-instructor](https://quasar.dev/start/quasar-cli) to install it.
 
 4. Start ColorPipette!
 ```

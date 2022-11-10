@@ -33,4 +33,4 @@ quasar dev
 Some of the code reference [Superpixel segmentation with fully convolutional networks](https://github.com/fuy34/superpixel_fcn) and [BASNet: Boundary-Aware Salient Object Detection](https://github.com/xuebinqin/BASNet).
 
 ## Enjoy ColorPipette!
-You can also enjoy ColorPipette at [ColorPipette](http://47.243.22.82:8080)
+You can also enjoy ColorPipette at [ColorPipette](http://47.243.22.82:8080).

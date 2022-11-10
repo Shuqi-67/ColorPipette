@@ -4,7 +4,7 @@ An interactive tool for paper *Image-Driven Harmonious Color Palette Generation 
 Generate harmonious color palette for visualization from the input image.
 
 Generate color palette from vivid images for your visualization!
-[![image.png](https://i.postimg.cc/zBqj2k2F/image.png)](https://postimg.cc/1gYwfDQ8)
+[![image.png](https://i.postimg.cc/X71zZt1S/image.png)](https://postimg.cc/XpF8m10Q = 200×200)
 
 ## Prerequisites
 The core code was mainly developed with python 3.6, PyTorch 1.10.0, CUDA 11, and Ubuntu 16.04.

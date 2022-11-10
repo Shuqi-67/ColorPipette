@@ -29,7 +29,7 @@ cd ../..
 4. Start ColorPipette!
 ```
 yarn
-quasar dev
+yarn quasar dev
 ```
 
 ## Reference

@@ -24,7 +24,7 @@ python app.py
 cd ../..
 ```
 
-3. We use [qarsar framework](https://quasar.dev/) to design the web application. Please follow [quasar-instructor](https://quasar.dev/start/quasar-cli) to install it.
+3. We use [quasar framework](https://quasar.dev/) to design the web application. Please follow [quasar-instructor](https://quasar.dev/start/quasar-cli) to install it.
 
 4. Start ColorPipette!
 ```

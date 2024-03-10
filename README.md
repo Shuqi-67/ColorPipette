@@ -48,6 +48,3 @@ If this work is helpful for you, please cite
   publisher={IEEE Computer Society}
 }
 ```
-
-## Enjoy ColorPipette!
-You can also enjoy ColorPipette at [ColorPipette](http://47.243.22.82:8080).

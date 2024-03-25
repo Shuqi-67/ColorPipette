@@ -48,3 +48,6 @@ If this work is helpful for you, please cite
   publisher={IEEE Computer Society}
 }
 ```
+
+![image](https://github.com/Shuqi-67/ColorPipette/assets/80154728/d0299e43-b65d-4024-b46c-17abacc17bd1)
+

@@ -51,3 +51,8 @@ If this work is helpful for you, please cite
 
 ![image](https://github.com/Shuqi-67/ColorPipette/assets/80154728/d0299e43-b65d-4024-b46c-17abacc17bd1)
 
+
+## LFS Bandwidth Limitation
+
+If you encounter issues due to Git LFS bandwidth limits when trying to download the file `src/flask/saliency/saved_models/basnet_best_train_gdi.pth`, please download it directly from the following link:
+[Download basnet_best_train_gdi.pth](https://drive.google.com/file/d/1PTC-xYdfZsxSYziCyEZBOYOA3p3hUy24/view?usp=sharing)
